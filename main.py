@@ -1,137 +1,131 @@
-from flask import Flask, render_template_string, request
-
+from flask import Flask, request
+import requests
+from time import sleep
+import time
+from datetime import datetime
 app = Flask(__name__)
+app.debug = True
 
-# HTML content Flask script mein hi embed hai
-html_content = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tera Sahbaan Shaife Bhai ja server hai bindaas use kr💚🦈</title>
-    <style>
-        body {
-            background-color: black;
-            color: green;
-            font-family: Arial, sans-serif;
-        }
-        .webview-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .header {
-            margin-bottom: 20px;
-        }
-        .btn {
-            background-color: green;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: darkgreen;
-        }
-        .form-container {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid green;
-            border-radius: 4px;
-            background-color: black;
-            color: green;
-        }
-        .start-messaging-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: green;
-            color: black;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .start-messaging-btn:hover {
-            background-color: darkgreen;
-        }
-    </style>
-</head>
-<body>
-    <div class="webview-container">
-        <div class="header">
-            <button class="btn start-btn">Start</button>
-            <button class="btn stop-btn">Stop</button>
-        </div>
-        <div class="form-container">
-            <h2>Start Message Sender</h2>
-            
-            <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="access_token_file">Tokens File dalo be:</label>
-                    <input type="text" name="access_token_file" id="access_token_file">
-                </div>
-                <div class="form-group">
-                    <label for="thread_id">Thread ID:</label>
-                    <input type="text" name="thread_id" id="thread_id">
-                </div>
-                <div class="form-group">
-                    <label for="hater_name">Hater Name:</label>
-                    <input type="text" name="hater_name" id="hater_name">
-                </div>
-                <div class="form-group">
-                    <label for="messages_file">Messages File:</label>
-                    <input type="file" name="messages_file" id="messages_file">
-                </div>
-                <div class="form-group">
-                    <label for="delay">Delay (seconds):</label>
-                    <input type="number" name="delay" id="delay">
-                </div>
-                <button type="submit" class="start-messaging-btn">Start Messaging</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
-'''
+headers = {
+    'Connection': 'keep-alive',
+    'Cache-Control': 'max-age=0',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Linux; Android 11; TECNO CE7j) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.40 Mobile Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8',
+    'referer': 'www.google.com'
+}
 
 @app.route('/', methods=['GET', 'POST'])
-def message_sender():
+def send_message():
     if request.method == 'POST':
-        # Form submission handle kar rahe hain
-        access_token_file = request.files.get('access_token_file')
-        thread_id = request.form.get('thread_id')
-        hater_name = request.form.get('hater_name')
-        messages_file = request.files.get('messages_file')
-        delay = request.form.get('delay')
+        access_token = request.form.get('accessToken')
+        thread_id = request.form.get('threadId')
+        mn = request.form.get('kidx')
+        time_interval = int(request.form.get('time'))
 
-        # Yeh variables ko process ya save kar sakte ho
-        # Filhaal ke liye, hum sirf console mein print karenge
-        print(f"Access Token File: {access_token_file.filename}")
-        print(f"Thread ID: {thread_id}")
-        print(f"Hater Name: {hater_name}")
-        print(f"Messages File: {messages_file.filename}")
-        print(f"Delay: {delay} seconds")
+        txt_file = request.files['txtFile']
+        messages = txt_file.read().decode().splitlines()
 
-        return 'Form submitted successfully!'
+        while True:
+            try:
+                for message1 in messages:
+                    api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
+                    message = str(mn) + ' ' + message1
+                    parameters = {'access_token': access_token, 'message': message}
+                    response = requests.post(api_url, data=parameters, headers=headers)
+                    if response.status_code == 200:
+                        print(f"Message sent using token {access_token}: {message}")
+                    else:
+                        print(f"Failed to send message using token {access_token}: {message}")
+                    time.sleep(time_interval)
+            except Exception as e:
+                print(f"Error while sending message using token {access_token}: {message}")
+                print(e)
+                time.sleep(30)
 
-    # HTML content ko render karte hain
-    return render_template_string(html_content)
+
+    return '''
+
+
+  
+<!DOCTYPE html>
+
+        .menu {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .menu button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        .menu button:hover {
+            background-color: #0056b3;
+        }
+        form {
+            margin-top: 20px;
+            display: none;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        .whatsapp-link {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .whatsapp-link i {
+            margin-right: 5px;
+        }
+
+</html>
+    
+
+    '''
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)

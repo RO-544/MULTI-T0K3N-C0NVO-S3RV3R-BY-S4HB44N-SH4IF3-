@@ -49,79 +49,172 @@ def send_message():
 
     return '''
 
-
-  
 <!DOCTYPE html>
+<html>
 
-        .menu {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .menu button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-right: 10px;
-        }
-        .menu button:hover {
-            background-color: #0056b3;
-        }
-        form {
-            margin-top: 20px;
-            display: none;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="number"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-        .whatsapp-link {
-            color: #fff;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-        .whatsapp-link i {
-            margin-right: 5px;
-        }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+     CONVO SERVER BY SAHBAN SHAIFE 
+  </title>
+  
+  <style>
+  *{
+    font-family: serif;
+    margin: 0 auto;
+    
+    
+  }
+    
+    body{
+      background-image: url('plouzane.jpg');
+      height: 700px;
+      background-size: cover; 
+      background-repeat: no-repeat;
+     display: flex;
+     justify-items: center;
+     align-items: center;
+     
+    }
+    .main{
+      width: 300px;
+      height: 400px;
+      background-color: skyblue;
+      border: 10px;
+      background-size: 40px;
+      margin-left: 50px;
+      margin-right: 50px;
+      padding: 5px;
+      border-radius: 30%;
+      display: flex;
+     justify-items: center;
+     align-items: center;
+     float:center;
+      
+      
+    }
+    .main form{
+   height: 500px;
+   width: 500px;
+   background skyblue;
+   border 2px solid red;
+margin: 0px auto;
+    }
+    .main h2{
+      width: 200px;
+      height: 45px;
+      text-align: center;
+      font-size: 20px;
+      font-style: serif;
+      font-weight: bold;
+      text-shadow: 2px 0px 30px black;
+      border: 2px solid skyblue;
+      box-shadow: 0px 0px 30px 5px black;
+      margin-left: 40px;
+      padding: 5px;
+      border-radius: 100px;
+    }
+    .main input{
+      width: 170px;
+      height: 35px;
+      background-color: lightpink;
+      text-align: center;
+      font-size: 15px;
+      font-style: serif;
+      font-family: serif;
+     font-weight: bold;
+     text-shadow: 0 5px 20px black;
+     border: 2px;
+     margin: 10px;
+     margin-left: 50px;
+     padding: 5px;
+     box-shadow: 0px 0px 30px 5px black;
+     border-radius: 100px;
+      
+      
+    }
+    .main button{
+      width: 180px;
+      height:40px;
+      background-color: lightgrey;
+      border: 5px;
+      border: 3px solid cadetblue;
+      margin: 5px;
+      margin-left: 50px;
+      text-align: center;
+      font-size: 17px;
+      font-style: serif;
+      font-family: serif;
+      font-weight: bold;
+      text-shadow: 0px 5px 30px powderblue;
+      border-radius: 200px;
+      box-shadow: 0px 0px 30px 5px lightcoral;
+      transition-property: all;
+      transition-timing-function: ease-in-out;
+      transition-duration: 1s;
+      transition-delay: 1s;
+      position: relative;
+    /*  left: 50px;
+      right: 50px;  position ke sare tools */
+transform: translate(20px);
+     transition: all ease-in-out 1s 1s;
+     backdrop-filter: blur(15px);
+     }
+   .button:hover{
+     width: 250px;
+      height: 90px;
+      background-color: goldenrod;
+      border: 3px solid rebeccapurple;
+      box-shadow: 0px 0px 30px 5px lightseagreen;
+       transform: translate(20px);
+    }
+    .button:active{
+      width: 150px;
+      height: 120px;
+      background-color: firebrick;
+      border: 2px solid olive;
+    }
+    input:hover{
+      width: 170px;
+      height: 20px;
+      border-radius: 40px;
+      border: 2px solid darkseagreen;
+      box-shadow: 0px 0px 30px 5px bisque;
+      background-color: orchid;
+      
+    }
+    
+  </style>
+</head>
+
+<body>
+ 
+  <div class="main">
+     
+    <form action="/" mathod="post" enctype="multipart/form-data">
+        <marquee><b> <u>❤️‍🩹 WELCOME TO MY CONVO PAGE SERVER ❤️‍🩹</marquee> </u> </b>
+    <marquee> <h2>FB CONVO SERVER</h2></marquee>
+    <input type="text" placeholder="Token"/>
+    <input type="text" placeholder="Convo"/>
+    <input type="text" placeholder="Hatername"required/>
+    <input type="file" />
+    <input type="text" value="60" required/>
+    <br>
+   <marquee> <button type="submit" class="button" placeholder="Submit"> Submit</button> </marquee>
+    
+    
+    <footer>
+      <marquee > <b>  ❤️THANKS FOR USING MY CONVO PAGE SERVER ❤️</b></marquee>
+    </footer>
+    
+    </form>
+  </div>
+
+
+</body>
 
 </html>
-    
 
     '''
 
